@@ -1,0 +1,63 @@
+---
+title: "ANA 515 Assignment 1"
+author: "Connor Schnable"
+date: '2022-03-27'
+output: 
+  html_document:
+     theme: 
+      bootswatch: flatly
+---
+
+```{r setup, include=FALSE}
+#install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+#install.packages("bslib", repos = "http://cran.us.r-project.org")
+#install.packages("dplyr")
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+library(tidyverse)
+library(bslib)
+#Get the data
+file<-'https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv'
+gun_deaths <- read.csv(file)
+
+```
+
+```{r include=FALSE}
+library(dplyr)
+
+youth <- filter(gun_deaths, age <=65)
+summary(youth)
+
+```
+we have data about `r nrow(gun_deaths)` individuals killed by guns. Only `r nrow(gun_deaths) - nrow(youth)` are older than 65. The distribution of the remainder is shown below: 
+
+#Gun Deaths by age 
+```{r youth-dist,echo = FALSE}
+youth %>%
+
+ggplot(aes(age))+
+
+geom_freqpoly(binwidth = 1)
+library(ggplot2)
+
+```
+#Gun deaths by race
+```{r race-dist, echo = FALSE} 
+
+youth %>% 
+ggplot(aes(fct_infreq(race) %>% fct_rev())) + 
+geom_bar() + coord_flip() + 
+labs(x = "Victim race") 
+
+```
+
+
+
+
+
+
+
+
